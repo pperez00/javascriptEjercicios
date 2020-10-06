@@ -4,6 +4,7 @@ console.log("Ejercicio 1\n");
 var msg = "Hola mundo!";
 console.log(msg);
 
+
 console.log('---------------------------------');
 
 // Ejercicio 2
@@ -108,7 +109,7 @@ function hayAlgunNegativo(numeros){
     return negativos;
 }
 
-var arrNumeros = [1, 2, 3, -2];
+var arrNumeros = [1, 2, 3, -2, 6];
 
 console.log(hayAlgunNegativo(arrNumeros));
 
@@ -117,17 +118,133 @@ console.log('---------------------------------');
 // Ejercicio 8
 console.log("Ejercicio 8\n");
 
-function cuantosCumplen(cb, numeros) {    
-    let pares = numeros.map(nota => cb(nota));
-    return pares;
-}
-
 function even(num) {
     if (num % 2 === 0) {
-        return num;
+        return true;
     } else {
         return false;
     }
 }
 
-console.log(cuantosCumplen(even, arrNumeros));
+function cuantosCumplen(callback, arr){
+    const resultado = arr.filter(element => callback(element));
+    console.log(resultado);
+    return resultado;
+}
+
+var pares = cuantosCumplen(even, arrNumeros);
+console.log(pares);
+
+console.log('---------------------------------');
+
+// Ejercicio 9
+console.log("Ejercicio 9\n");
+
+function rechazar(callback, arr){
+    const resultado = arr.filter(element => !callback(element));
+    console.log(resultado);
+    return resultado;
+}
+
+var rechazados = rechazar(even, arrNumeros);
+console.log(rechazados);
+
+console.log('---------------------------------');
+
+// Ejercicio 10
+console.log("Ejercicio 10\n");
+
+function contiene(i, arr){
+    var resultado = arr.includes(i);
+    return resultado;
+}
+
+console.log(contiene(1, [2,4,5]));
+console.log(contiene(1, [2,1,5]));
+
+console.log('---------------------------------');
+
+// Ejercicio 11
+console.log("Ejercicio 11\n");
+
+class Persona{
+    constructor(nombre, edad){
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    presentarse() {
+
+        return console.log(`Hola, mi nombre es ${this.nombre} y tengo ${this.edad} años`);
+    }
+    
+}
+
+var persona1 = new Persona("Pablo", 39);
+persona1.presentarse();
+
+console.log('---------------------------------');
+
+// Ejercicio 12
+console.log("Ejercicio 12\n");
+
+class Estudiante extends Persona{
+    constructor(nombre, edad){
+        super(nombre, edad);
+        this.profesor;
+    }
+
+    estudiando(){
+        console.log(`${this.nombre} está estudiando con ${this.profesor.nombre}`);
+    }
+
+    setProfesor(Profesor){
+        this.profesor = Profesor;
+    }
+}
+
+var est1 = new Estudiante("Pablo", 39);
+est1.presentarse();
+//est1.setProfesor("Christian");
+//est1.estudiando();
+
+console.log('---------------------------------');
+
+// Ejercicio 13
+console.log("Ejercicio 13\n");
+
+class Profesor extends Persona{
+    constructor(nombre, edad){
+        super(nombre, edad);
+        this.estudiantes = [];
+    }
+
+    addEstudiante(Estudiante){
+        Estudiante.setProfesor(this);
+        this.estudiantes.push(Estudiante);
+
+    }
+
+    ensenando(){
+        console.log("Estudiantes de " + this.nombre + ": ");
+        this.estudiantes.forEach(element => console.log(element.nombre)); 
+    }
+}
+
+var prof = new Profesor("Juan", 33);
+var prof1 = new Profesor("Christian", 36);
+
+var est2 = new Estudiante("Pepe", 23);
+
+prof.addEstudiante(est1);
+prof.addEstudiante(est2);
+est1.estudiando();
+
+est1.setProfesor(prof1);
+est1.estudiando();
+
+
+prof1.addEstudiante(est2);
+console.log("");
+prof1.ensenando();
+prof.ensenando();
